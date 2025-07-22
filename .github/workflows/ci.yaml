@@ -1,0 +1,14 @@
+name: Devsecops Demo CI/CD
+run-name: CI/CD Pipeline
+on:
+  push:
+    branches: [ main ]
+    paths-ignore:
+      - 'kubernetes/deployment.yaml'  # Ignore changes to this file to prevent loops
+
+Jobs: 
+  Explore the CI/CD pipeline for the Devsecops demo project.
+  runs-on: ubuntu-latest
+  steps:
+    - name: Testing
+      run: echo "Running tests..."
