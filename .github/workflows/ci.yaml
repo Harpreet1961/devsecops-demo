@@ -8,7 +8,7 @@ on:
 
 Jobs: 
   Explore the CI/CD pipeline for the Devsecops demo project.
-  runs-on: ubuntu-latest
-  steps:
+   runs-on: ubuntu-latest
+   steps:
     - name: Testing
       run: echo "Running tests..."
