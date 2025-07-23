@@ -67,24 +67,29 @@ jobs:
           
           
   Docker_Registry_Login:
-    runs-on: ubuntu-latest
-    needs: Build
-    steps:
+   runs-on: ubuntu-latest
+   needs: Build
+   steps:
       - name: Checkout code
         uses: actions/checkout@v2
 
       - name: Login to GHCR
-        run: echo "${{secrets.GHCR_PAT}}" | docker login ghcr.io -u ${{github.actor}} --password-stdin
+        run: echo "${{ secrets.GHCR_PAT }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
 
-      - name: 'Build Inventory Image'
+      - name: Set lowercase repo name
         run: |
-          echo "Building Docker image..."
-          REPO_NAME=$(echo "${{ github.repository }}" | tr '[:upper:]' '[:lower:]')
-          docker build -t ghcr.io/${REPO_NAME}/inventory:latest .
-          docker tag ghcr.io/${REPO_NAME}/inventory:latest ghcr.io/${REPO_NAME}/inventory:${{ github.sha }}
-      - name: 'Push Inventory Image'
+          echo "REPO_NAME=$(echo '${{ github.repository }}' | tr '[:upper:]' '[:lower:]')" >> $GITHUB_ENV
+
+      - name: Build Inventory Image
+        run: |
+           echo "Building Docker image..."
+           docker build -t ghcr.io/${REPO_NAME}/inventory:latest .
+           docker tag ghcr.io/${REPO_NAME}/inventory:latest ghcr.io/${REPO_NAME}/inventory:${{ github.sha }}
+
+      - name: Push Inventory Image
         run: |
           echo "Pushing Docker image to GHCR..."
-          docker push ghcr.io/${{github.repository}}/inventory:${{github.sha}}
+          docker push ghcr.io/${REPO_NAME}/inventory:latest
+          docker push ghcr.io/${REPO_NAME}/inventory:${{ github.sha }}
 
 
