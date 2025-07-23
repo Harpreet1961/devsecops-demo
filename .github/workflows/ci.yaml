@@ -85,6 +85,6 @@ jobs:
       - name: 'Push Inventory Image'
         run: |
           echo "Pushing Docker image to GHCR..."
-          docker push ghcr.io/${REPO_NAME}/inventory:${{ github.sha }}
+          docker push ghcr.io/${{github.repository}}/inventory:${{github.sha}}
 
 
