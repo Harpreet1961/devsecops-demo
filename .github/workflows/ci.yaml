@@ -29,3 +29,14 @@ jobs:
         run: |
           npm install
           npm test
+
+  Static_Code_Analysis:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      
+      - name: Run static code analysis
+        run: |
+          echo " Running static code analysis..."
+          npm run lint
