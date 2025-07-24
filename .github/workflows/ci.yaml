@@ -86,6 +86,17 @@ jobs:
            docker build -t ghcr.io/${REPO_NAME}/inventory:latest .
            docker tag ghcr.io/${REPO_NAME}/inventory:latest ghcr.io/${REPO_NAME}/inventory:${{ github.sha }}
 
+      - name: Scan Image
+        uses: aquasecurity/trivy-action@0.28.0
+        with:
+          image-ref: 'ghcr.io/${REPO_NAME}/inventory:latest ghcr.io/${REPO_NAME}/inventory:${{ github.sha }}'
+          format: 'table'
+          exit-code: '1'
+          ignore-unfixed: true
+          vuln-type: 'os,library'
+          severity: 'CRITICAL,HIGH'
+           
+
       - name: Push Inventory Image
         run: |
           echo "Pushing Docker image to GHCR..."
