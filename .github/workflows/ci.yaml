@@ -89,7 +89,7 @@ jobs:
       - name: Scan Image
         uses: aquasecurity/trivy-action@0.28.0
         with:
-          image-ref: 'ghcr.io/${env.REPO_NAME}/inventory:${{ github.sha }}'
+          image-ref: ghcr.io/${{ env.REPO_NAME }}/inventory:${{ github.sha }}
           format: 'table'
           exit-code: '1'
           ignore-unfixed: true
