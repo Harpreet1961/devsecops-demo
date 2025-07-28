@@ -91,7 +91,7 @@ jobs:
         run: |
            echo "Building Docker image..."
            docker build -t ghcr.io/${REPO_NAME}/inventory:latest .
-           docker tag ghcr.io/${env.REPO_NAME}/inventory:latest ghcr.io/${REPO_NAME}/inventory:${{ github.sha }}
+           docker tag ghcr.io/${REPO_NAME}/inventory:latest ghcr.io/${REPO_NAME}/inventory:${{ github.sha }}
 
       - name: Scan Image
         uses: aquasecurity/trivy-action@0.28.0
