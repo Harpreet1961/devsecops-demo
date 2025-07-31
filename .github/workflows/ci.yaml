@@ -155,7 +155,7 @@ jobs:
           echo "Checking for changes..."
           if git diff --quiet kubernetes/deployment.yaml; then
              echo "No changes to commit."
-             echo "Skipping commit and push."
+            
            
              
           else
