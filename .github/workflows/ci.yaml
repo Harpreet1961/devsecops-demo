@@ -146,5 +146,7 @@ jobs:
           git config --global user.email "${{ github.actor }}@users.noreply.github.com"
           git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}
           echo "${{ github.repository }}"
-          sed -i "s|ghcr.io/${{ needs.Set_repo_name.outputs.repo_name }}/inventory:.*|ghcr.io/${{ needs.Set_repo_name.outputs.repo_name }}/inventory:${{ github.sha }}|g" kubernetes/deployment.yaml
+          ls -l kubernetes/deployment.yaml
+          sed -i "s|image: ghcr.io/${{ needs.Set_repo_name.outputs.repo_name }}/inventory:.*|image: ghcr.io/${{ needs.Set_repo_name.outputs.repo_name }}/inventory:${GITHUB_SHA}|g" kubernetes/deployment.yaml
+
           
