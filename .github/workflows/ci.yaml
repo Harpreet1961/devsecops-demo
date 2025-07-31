@@ -135,7 +135,10 @@ jobs:
     steps:
       - name: Print GitHub SHA
         run: echo "GitHub SHA is ${{ github.sha }}"
-        
+
+      - name: Checkout code
+        uses: actions/checkout@v2
+
       - name: git_login
         run: |
           echo "Logging into GitHub..."
