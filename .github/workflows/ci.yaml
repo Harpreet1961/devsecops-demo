@@ -145,12 +145,19 @@ jobs:
           git config --global user.name "${{ github.actor }}"
           git config --global user.email "${{ github.actor }}@users.noreply.github.com"
           git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}
-          echo "${{ github.repository }}"
+          echo "Repo: ${{ github.repository }}"
+
       - name: Update deployment.yaml
-        run: | 
+        run: |
           echo "Updating image tag in deployment.yaml"
           sed -i "s|image: ghcr.io/${{ needs.Set_repo_name.outputs.repo_name }}/inventory:.*|image: ghcr.io/${{ needs.Set_repo_name.outputs.repo_name }}/inventory:${{ github.sha }}|g" kubernetes/deployment.yaml
-          echo "Committing and pushing updated deployment.yaml"
-          git add kubernetes/deployment.yaml
-          git commit -m "chore: update inventory image to ${{ github.sha }}"
-          git push origin HEAD:${{ github.ref_name }}
+ 
+          echo "Checking for changes..."
+          if git diff --quiet kubernetes/deployment.yaml; then
+             echo "No changes to commit."
+          else
+           echo "Changes detected. Committing..."
+           git add kubernetes/deployment.yaml
+           git commit -m "chore: update inventory image to ${{ github.sha }}"
+           git push origin HEAD:${{ github.ref_name }}
+          fi
