@@ -134,6 +134,12 @@ jobs:
     needs: [Docker_Registry_Login]
     steps:
       - name: Print GitHub SHA
-        run: echo "GitHub SHA is ${{ github.sha }}"        
-
-
+        run: echo "GitHub SHA is ${{ github.sha }}"
+        
+      - name: git_login
+        run: |
+          echo "Logging into GitHub..."
+          git config --global user.name "${{ github.actor }}"
+          git config --global user.email "${{ github.actor }}@users.noreply.github.com"
+          git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}
+          echo "${{ github.repository }}"
