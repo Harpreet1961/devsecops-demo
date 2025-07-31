@@ -146,8 +146,8 @@ jobs:
           git config --global user.email "${{ github.actor }}@users.noreply.github.com"
           git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}
           echo "${{ github.repository }}"
-          ls -l kubernetes/deployment.yaml
-          cat kubernetes/deployment.yaml
+      - name: Update deployment.yaml
+        run: | 
           echo "Updating image tag in deployment.yaml"
           sed -i "s|image: ghcr.io/${{ needs.Set_repo_name.outputs.repo_name }}/inventory:.*|image: ghcr.io/${{ needs.Set_repo_name.outputs.repo_name }}/inventory:${{ github.sha }}|g" kubernetes/deployment.yaml
           echo "Committing and pushing updated deployment.yaml"
