@@ -149,10 +149,13 @@ jobs:
       - name: git_login
         run: |
           echo "Logging into GitHub..."
-          git config --global user.name "${{ github.actor }}"
-          git config --global user.email "${{ github.actor }}@users.noreply.github.com"
+          git config --global user.name "ci-bot"
+          git config --global user.email "ci-bot@users.noreply.github.com"
+
+          # git config --global user.name "${{ github.actor }}"
+          # git config --global user.email "${{ github.actor }}@users.noreply.github.com"
           git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}
-          echo "Repo: ${{ github.repository }}"
+         # echo "Repo: ${{ github.repository }}"
 
       - name: Update deployment.yaml
         run: |
