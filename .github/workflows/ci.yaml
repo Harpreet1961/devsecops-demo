@@ -63,8 +63,14 @@ jobs:
         run: |
           echo "Building the application..."
           npm install
-          npm run build     
-          
+          npm run build   
+      
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: build-artifacts
+          path: dist/  # Adjust this path based on your build output directory
+
   Set_repo_name:
     runs-on: ubuntu-latest
     needs: Build
