@@ -32,6 +32,7 @@ jobs:
 
   Static_Code_Analysis:
     runs-on: ubuntu-latest
+    needs: Test_Job
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
