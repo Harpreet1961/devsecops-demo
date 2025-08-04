@@ -82,7 +82,7 @@ jobs:
          REPO_NAME: ${{ steps.set_repo_name.outputs.repo_name }}
         run: echo "Repo is $REPO_NAME"    
           
-  Docker_Registry_Login:
+  Docker_Image_Build_Scan_Push:
    runs-on: ubuntu-latest
    needs: [Set_repo_name,Build]
    steps:
@@ -129,9 +129,9 @@ jobs:
           docker push ghcr.io/${{ needs.Set_repo_name.outputs.repo_name }}/inventory:${{ github.sha }}
 
 
-  github_sha:
+  Image_Update_Deployment:
     runs-on: ubuntu-latest
-    needs: [Docker_Registry_Login, Set_repo_name]
+    needs: [Docker_Image_Build_Scan_Push, Set_repo_name]
     steps:
       - name: Print GitHub SHA
         run: echo "GitHub SHA is ${{ github.sha }}"
@@ -161,9 +161,7 @@ jobs:
           else
            echo "Changes detected. Committing..."
            git add kubernetes/deployment.yaml
-           git commit -m "chore: update inventory image to ${{ github.sha }}"
-           echo "Pulling latest before push to avoid conflict"
-           git pull --rebase origin "${{ github.ref_name }}"
-
+           git commit -m "chore: update inventory image to kubernetes deployment ${{ github.sha }}"
+           echo "Pulling latest before push to avoid conflicts..."
            git push origin HEAD:${{ github.ref_name }}
           fi
